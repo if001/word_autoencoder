@@ -7,45 +7,22 @@ from keras.layers.wrappers import TimeDistributed as TD
 from keras.models import Model
 
 
-class Mnist(abc_model.ABCModel):
+class WordAutoencoder(abc_model.ABCModel):
     @classmethod
     def make_model(cls):
-        input_layer = Input(shape=(784,))
-        layer2 = Dense(512, activation='relu')(input_layer)
-        layer2 = Dropout(0.2)(layer2)
-        layer3 = Dense(512, activation='relu')(layer2)
-        layer3 = Dropout(0.2)(layer3)
-        output = Dense(config.Config.num_classes, activation='softmax')(layer3)
-        model = Model(input_layer, output)
+        input_layer = Input(shape=(None, 4 * 4 * 8))
+        output_layer = Dense(512, activation='relu')(input_layer)
+        output_layer, state_h, state_c = LSTM(
+            256, return_state=True, return_sequences=True)(output_layer)
+        output_layer = Dense(512, activation='relu')(output_layer)
+        output_layer = Dense(128, activation='relu')(output_layer)
+        model = Model(input_layer, output_layer)
         model.summary()
 
         model.compile(loss=config.Config.loss,
                       optimizer=config.Config.optimizer,
                       metrics=[config.Config.metrics])
         return model
-
-    @classmethod
-    def encoder(cls):
-        K.set_learning_phase(1)  # set learning phase
-        latent_dim = 256
-        encoder_inputs = Input(shape=(None, 128))
-        encoder_dense_outputs = Dense(128,
-                                      activation='sigmoid')(encoder_inputs)
-        encoder_lstm_outputs = LSTM(latent_dim, return_sequences=True,
-                                    dropout=0.6, recurrent_dropout=0.6)(encoder_dense_outputs)
-
-        decoder_dense_outputs = Dense(
-            self.input_dim, activation='sigmoid')(decoder_inputs)
-        decoder_lstm = LSTM(
-            latent_dim, return_sequences=True, return_state=True)
-        decoder_lstm_outputs, _, _ = decoder_lstm(decoder_dense_outputs,
-                                                  initial_state=encoder_states)
-        decoder_dense_outputs = Dense(self.output_dim,
-                                      activation='relu')(decoder_lstm_outputs)
-        decoder_outputs = Dense(self.output_dim,
-                                activation='linear')(decoder_dense_outputs)
-
-            return Model(encoder_inputs, decoder_outputs)
 
     @classmethod
     def save_model(cls, model):
