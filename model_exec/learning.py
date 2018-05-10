@@ -20,10 +20,12 @@ class Learning():
         return history
 
     @classmethod
-    def run(cls, model, x_train, y_train):
+    def run(cls, model, x_train, y_train, cbs):
         history = model.fit(x_train, y_train,
                             batch_size=config.Config.batch_size,
-                            epochs=config.Config.epochs)
+                            epochs=config.Config.epochs,
+                            callbacks=cbs
+                            )
         return history
 
 
