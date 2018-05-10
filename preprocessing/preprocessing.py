@@ -40,7 +40,7 @@ class PreProcessing(abc_preprocessing.ABCPreProcessing):
     @classmethod
     def make_train_data(cls, data_size, word_len):
         word_list = PreProcessing.__get_word_lists(
-            "../aozora_data/files/tmp.txt")
+            "../aozora_data/files/files_all_rnp.txt")
         uniq_word_lists = PreProcessing.__to_uniq(word_list)
         print("uniq word len:", len(uniq_word_lists))
 
