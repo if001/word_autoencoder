@@ -28,7 +28,7 @@ class WordAutoencoder(abc_model.ABCModel):
         output_layer, state_h, state_c = LSTM(
             256, return_state=True, return_sequences=True)(output_layer)
         output_layer = Dense(512, activation='relu')(output_layer)
-        output_layer = Dense(128, activation='relu')(output_layer)
+        output_layer = Dense(128, activation='sigmoid')(output_layer)
         model = Model(input_layer, output_layer)
         model.summary()
 
