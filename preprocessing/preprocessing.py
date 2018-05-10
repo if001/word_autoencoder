@@ -52,9 +52,9 @@ class PreProcessing(abc_preprocessing.ABCPreProcessing):
         for i in range(data_size):
             rand_num = rand.randint(0, len(uniq_word_lists) - 1)
             select_word = uniq_word_lists[rand_num]
-            # while(len(select_word) != word_len):
-            #     rand_num = rand.randint(0, len(uniq_word_lists) - 1)
-            #     select_word = uniq_word_lists[rand_num]
+            while(len(select_word) != word_len):
+                rand_num = rand.randint(0, len(uniq_word_lists) - 1)
+                select_word = uniq_word_lists[rand_num]
             word_feature = []
             for char in select_word:
                 feature = get_feature.char2feature(char, encoder)
