@@ -6,7 +6,7 @@ import numpy as np
 
 
 def main():
-    train_x, train_y = PreProcessing().make_train_data(data_size=2000, word_len=2)
+    train_x, train_y = PreProcessing().make_train_data(data_size=3, word_len=2)
     word_autoencoder_model = WordAutoencoder().make_model()
     hist = Learning.run(word_autoencoder_model, train_x, train_y)
     # WordAutoencoder.save_model(word_autoencoder_model)

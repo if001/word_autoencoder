@@ -52,11 +52,10 @@ class PreProcessing(abc_preprocessing.ABCPreProcessing):
         for i in range(data_size):
             rand_num = rand.randint(0, len(uniq_word_lists) - 1)
             select_word = uniq_word_lists[rand_num]
-            while(len(select_word) != word_len):
-                rand_num = rand.randint(0, len(uniq_word_lists) - 1)
-                select_word = uniq_word_lists[rand_num]
+            # while(len(select_word) != word_len):
+            #     rand_num = rand.randint(0, len(uniq_word_lists) - 1)
+            #     select_word = uniq_word_lists[rand_num]
             word_feature = []
-            print(select_word)
             for char in select_word:
                 feature = get_feature.char2feature(char, encoder)
                 feature = feature.reshape(4 * 4 * 8)
@@ -71,6 +70,8 @@ class PreProcessing(abc_preprocessing.ABCPreProcessing):
 
         train_x = np.array(train_x)
         train_y = np.array(train_y)
+        print("train_x shape:", train_x.shape)
+        print("train_y shape:", train_y.shape)
         return train_x, train_y
 
     @classmethod
